@@ -1,0 +1,5 @@
+# default.yaml 补丁:禁用 Rime 内部的 Shift 切换英文
+# Shift 单击统一切换交给 fcitx5 层(AltTriggerKeys=Shift_L),Rime 内部 ascii_mode 不再被 Shift 激活
+patch:
+  ascii_composer/switch_key/Shift_L: noop
+  ascii_composer/switch_key/Shift_R: noop

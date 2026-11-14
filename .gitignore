@@ -1,0 +1,9 @@
+# 本地敏感数据，永不入库
+*.userdb/
+build/
+sync/
+installation.yaml
+user.yaml
+*.bak*
+auth.json
+.DS_Store

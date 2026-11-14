@@ -1,0 +1,28 @@
+# 万象方案补丁(此文件在用户目录根,Rime 才会加载;custom/ 子目录下的同名文件不会被自动加载)
+patch:
+  switches/@0/reset: 0            # 中英状态:每个新会话强制从「中文」开始
+  switches/@6/reset: 0            # 输入码显示原始编码,不转换为带声调全拼(关音调①)
+  switches/@9/reset: 0            # 候选注释关闭全拼声调显示(关音调②)
+  menu/page_size: 9               # 每页候选词 9 个
+  translator/enable_correction: true   # 自动纠错:容忍误触键(邻近键、多带字母仍能给出候选)
+
+  # 覆盖上游 Ctrl+A(注释)/Ctrl+S(音调) 热键:改为吞掉,不再触发注释/音调
+  "key_binder/bindings/@before 0": { when: has_menu, accept: "Control+a", send: "VoidSymbol" }
+  "key_binder/bindings/@before 1": { when: has_menu, accept: "Control+s", send: "VoidSymbol" }
+  # 符号快打覆盖:默认 f/→“ g/→” 与自动配对的引号键重复,改为圆点/小中点
+  quick_symbol_text/symkey/f: "•"
+  quick_symbol_text/symkey/g: "‧"
+
+  # 部分上屏(partial_commit 原键位 Ctrl+1~0)在编辑器/浏览器/终端里被占用,
+  # 这里把 Alt+1~0 转发成 Ctrl+1~0,继续复用原 Lua,不改 lua 源码(升级不被覆盖)。
+  key_binder/bindings/+:
+    - { when: composing, accept: "Alt+1", send: "Control+1" }
+    - { when: composing, accept: "Alt+2", send: "Control+2" }
+    - { when: composing, accept: "Alt+3", send: "Control+3" }
+    - { when: composing, accept: "Alt+4", send: "Control+4" }
+    - { when: composing, accept: "Alt+5", send: "Control+5" }
+    - { when: composing, accept: "Alt+6", send: "Control+6" }
+    - { when: composing, accept: "Alt+7", send: "Control+7" }
+    - { when: composing, accept: "Alt+8", send: "Control+8" }
+    - { when: composing, accept: "Alt+9", send: "Control+9" }
+    - { when: composing, accept: "Alt+0", send: "Control+0" }
