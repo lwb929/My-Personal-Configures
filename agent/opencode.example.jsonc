@@ -103,7 +103,7 @@
       "name": "lo",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "http://192.168.1.4:218/v1",
+        "baseURL": "http://192.0.2.10:218/v1",
         "apiKey": "REDACTED-USE-ENV-VAR"
       },
       "models": {
@@ -314,7 +314,7 @@
       "name": "lo2_m3",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "http://192.168.1.4:226/v1"
+        "baseURL": "http://192.0.2.10:226/v1"
       },
       "models": {
         "kc/stepfun/step-3.7-flash:free": {
@@ -341,7 +341,7 @@
       "name": "lo-2",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "http://192.168.1.4:226/v1"
+        "baseURL": "http://192.0.2.10:226/v1"
       },
       "models": {
         "kc/poolside/laguna-xs-2.1:free": {
@@ -353,7 +353,7 @@
       "name": "lo-3",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "https://ai227.ro.leebro.eu.org/v1"
+        "baseURL": "https://gateway.example.com/v1"
       },
       "models": {
         "kc/stepfun/step-3.7-flash:free": {
@@ -380,7 +380,7 @@
       "name": "227-2",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "http://192.168.1.4:227/v1"
+        "baseURL": "http://192.0.2.10:227/v1"
       },
       "models": {
         "oc/deepseek-v4-flash-free": {
