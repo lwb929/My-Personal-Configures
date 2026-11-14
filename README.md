@@ -68,7 +68,7 @@ oh-my-zsh + 插件：zsh-autosuggestions / zsh-syntax-highlighting / z / extract
 | 身份关联链 | 自建网关域名（含真实 ID） | 替换为 `gateway.example.com` |
 | 基础设施拓扑 | 局域网固定 IP + 自建服务端口 | 替换为 TEST-NET 地址 `192.0.2.10` |
 | 设备指纹 | `installation.yaml`（设备 UUID）、`*.userdb`（打字历史可重建个人画像） | 不入库 |
-| 凭证 | `auth.json`、真实 apiKey | 不入库 / REDACTED |
+| 凭证 | opencode 配置、`auth.json`（真实 API key） | 不入库（模型配置已按决定完全移除） |
 
 仍保留的已知暴露面（有意保留，推送前知悉即可）：
 
