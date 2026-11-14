@@ -63,6 +63,23 @@ oh-my-zsh + 插件：zsh-autosuggestions / zsh-syntax-highlighting / z / extract
 
 验证：`git -C ~/WORKPLACE/dotfiles config user.name` 应显示开源账号名，而全局 `git config --global user.name` 不变。推送时为该账号配置对应的 SSH deploy key 或 PAT。
 
+## 隐私威胁模型说明
+
+发布公开仓库前按「社会工程学侦查聚合」视角审查过，已清除的泄露面：
+
+| 类别 | 泄露项 | 处理 |
+|---|---|---|
+| 身份关联链 | 自建网关域名（含真实 ID） | 替换为 `gateway.example.com` |
+| 基础设施拓扑 | 局域网固定 IP + 自建服务端口 | 替换为 TEST-NET 地址 `192.0.2.10` |
+| 设备指纹 | `installation.yaml`（设备 UUID）、`*.userdb`（打字历史可重建个人画像） | 不入库 |
+| 凭证 | `auth.json`、真实 apiKey | 不入库 / REDACTED |
+
+仍保留的已知暴露面（有意保留，推送前知悉即可）：
+
+- `zsh/zshrc` 中 `proxy_on` 的端口 `10808` / `12345`：常见代理工具默认端口，能推断本机使用代理工具。如介意可改为任意高位端口。
+- git 提交的**时间戳和时区**会暴露活跃时段（东八区）。如介意，推送前可用 `git filter-repo` 或延后分批提交。
+- rime 词库含上游作者公开署名（`skoj@qq.com`），属上游项目自带内容。
+
 ## LICENSE
 
 MIT
