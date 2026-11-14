@@ -1,6 +1,6 @@
 # dotfiles
 
-个人开源配置：Neovim (LazyVim)、Rime 输入法（万象方案）、zsh、opencode agent 配置。
+个人开源配置：Neovim (LazyVim)、Rime 输入法（万象方案）、zsh。
 发布于独立的 GitHub 账号，与本机日常 git 身份通过 `includeIf` 分离。
 
 ## 目录结构
@@ -9,7 +9,6 @@
 nvim/    Neovim 配置（LazyVim 发行版 + 自定义 plugins）
 rime/    fcitx5-rime 万象拼音方案（schema / dict / lua / opencc）
 zsh/     zshrc / zshenv（oh-my-zsh + eza + 代理开关函数）
-agent/   opencode 配置模板（apiKey 已脱敏，见下）
 install.sh  一键软链安装（自动备份已有文件）
 ```
 
@@ -38,9 +37,6 @@ git clone https://github.com/amzxyz/Rime-Wanxiang.git ~/.local/share/fcitx5/rime
 ### zsh
 oh-my-zsh + 插件：zsh-autosuggestions / zsh-syntax-highlighting / z / extract。内置 `proxy_on` / `proxy_off` 代理开关。
 
-### agent
-`agent/opencode.example.jsonc` 是 [opencode](https://opencode.ai) 的 provider 配置模板。**所有 apiKey 已替换为 `REDACTED-USE-ENV-VAR`**，真实 key 请通过环境变量或本地未入库文件注入。
-
 ## 脱敏清单（私有数据，不入库）
 
 | 排除项 | 原因 |
@@ -51,10 +47,10 @@ oh-my-zsh + 插件：zsh-autosuggestions / zsh-syntax-highlighting / z / extract
 | `user.yaml`、`stats.userdb` | 本机运行状态 |
 | `build/` | 编译产物 |
 | `rime-wanxiang-base/` | 上游项目内容，应从官方仓库获取 |
-| `agent/auth.json` | opencode 登录凭证（真实 API key） |
-| `opencode.jsonc` 原文件 | 含真实 apiKey，入库的是脱敏模板 |
 
 ## git 身份分离
+
+| `agent/` 整个目录 | LLM provider 模型配置，按用户要求完全不开源 |
 
 本仓库使用与日常不同的 GitHub 账号，通过 git `includeIf` 实现：
 
