@@ -7,3 +7,6 @@ user.yaml
 *.bak*
 auth.json
 .DS_Store
+
+# 上游万象语言模型（386MB，超 GitHub 100MB 限制），从上游 release 下载
+wanxiang-lts-zh-hans.gram
