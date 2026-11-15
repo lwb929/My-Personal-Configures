@@ -1,0 +1,27 @@
+# 宿主原生 Caddy 反代示例（Docker Hub 不可达时不要用 caddy 容器）
+# 用法：sudo caddy run --config Caddyfile
+# 前置：DNS 已指向本机；80/443 可达；.env 里 OPEN_DESIGN_ALLOWED_ORIGINS 已设为下方 origin
+
+od.example.com {
+	encode zstd gzip
+
+	# 大响应（导出/预览）留足超时
+	reverse_proxy 127.0.0.1:7456 {
+		header_up X-Forwarded-Proto {scheme}
+		transport http {
+			read_timeout 10m
+			write_timeout 10m
+		}
+	}
+
+	# 可选：在反代层再加一道 Basic Auth（此时容器内可保留 Bearer，不冲突）
+	# basic_auth {
+	# 	admin $2a$14$REPLACE_WITH_CADDY_HASH
+	# }
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}

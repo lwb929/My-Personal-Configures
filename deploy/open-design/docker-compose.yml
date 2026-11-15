@@ -1,0 +1,72 @@
+# OpenDesign 服务端部署（单容器：daemon + 静态 Web UI + SQLite）
+# 用法：先 cp .env.example .env 填 OD_API_TOKEN，再 docker compose up -d
+# 说明：镜像仅从 ghcr.io 拉取，不依赖 Docker Hub。
+
+name: open-design
+
+services:
+  open-design:
+    container_name: open-design
+    image: ${OPEN_DESIGN_IMAGE:-ghcr.io/nexu-io/od:0.27.1}
+    restart: unless-stopped
+    stop_grace_period: 30s
+
+    environment:
+      NODE_ENV: production
+      # 默认给 768m 堆（官方默认 192m 偏小，大会话/大导出容易 OOM）
+      NODE_OPTIONS: ${NODE_OPTIONS:---max-old-space-size=768}
+
+      OD_BIND_HOST: 0.0.0.0        # 容器内监听所有网卡，对外只由 ports 映射暴露
+      OD_PORT: "7456"
+      OD_WEB_PORT: ${OPEN_DESIGN_PORT:-7456}
+
+      OD_API_TOKEN: ${OD_API_TOKEN:?必须在 .env 里设置 OD_API_TOKEN}
+      OD_ALLOWED_ORIGINS: ${OPEN_DESIGN_ALLOWED_ORIGINS:-}
+      OD_DISABLE_API_AUTH: ${OPEN_DESIGN_DISABLE_API_AUTH:-}
+      OD_CODEX_SANDBOX: ${OD_CODEX_SANDBOX:-}
+
+      # 可选：BYOK 模型 key，留空不影响启动（但没 key 就无法生成）
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+
+    ports:
+      # 默认只绑 127.0.0.1；远程访问请用 SSH 隧道或反代，不要直接对公网开
+      - "${OPEN_DESIGN_BIND:-127.0.0.1}:${OPEN_DESIGN_PORT:-7456}:7456"
+
+    volumes:
+      # 数据库、项目、会话、设置全在这里。删掉它 = 删掉所有数据。
+      - open_design_data:/app/.od
+
+    read_only: true
+    tmpfs:
+      - /tmp:size=512m
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: ${OPEN_DESIGN_MEM_LIMIT:-1536m}
+    pids_limit: 512
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:7456/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 25s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  open_design_data:
+    # 固定卷名：与官方 compose 一致，重命名项目也不会丢数据
+    name: open_design_data
